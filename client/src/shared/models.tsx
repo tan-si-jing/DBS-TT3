@@ -1,11 +1,11 @@
 export interface Employee {
-    employeeID?: number;
-    supervisorID: number;
-    departmentCode: number;
-    password: string;
-    firstName: string;
-    lastName: string;
-    bankAccountNumber: string;
+  employeeID?: number;
+  supervisorID: number;
+  departmentCode: number;
+  password: string;
+  firstName: string;
+  lastName: string;
+  bankAccountNumber: string;
 }
 
 export interface Projects {
@@ -20,7 +20,7 @@ export interface ProjectExpensesClaims {
     claimId?: number | null;
     projectId: number | null;
     employeeId: number;
-    currencyId: number;
+    currencyId: string;
     expenseDate: Date | null;
     amount: number;
     purpose: string;

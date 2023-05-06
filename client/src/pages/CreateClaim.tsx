@@ -49,7 +49,9 @@ const CreateClaim = ({claim}: Props) => {
     direction="column"
     alignItems="center"
     style={{ minHeight: '100vh' }}>
+      <br />
       <h1>Create Claim</h1>
+      <br />
 
       <table>
         {/* <tr>
