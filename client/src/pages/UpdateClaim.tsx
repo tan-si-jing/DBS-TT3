@@ -17,17 +17,18 @@ import dayjs from "dayjs";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
-interface Props {
-  claim?: ProjectExpensesClaims;
-}
-
-const UpdateClaim = ({ claim }: Props) => {
+const UpdateClaim = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const claim = location.state.claim;
+
+  console.log("==== claim", claim);
 
   const [newClaim, setNewClaim] = useState({
     expenseDate: dayjs(new Date()),
     amount: 0,
+    currencyId: "",
     purpose: "",
   });
 
@@ -104,6 +105,24 @@ const UpdateClaim = ({ claim }: Props) => {
           </td>
           <SpacingTd></SpacingTd>
           <td>
+            <Select
+              labelId="select-currency"
+              id="select-currency"
+              defaultValue="SGD"
+              value={newClaim.currencyId}
+              label="Currency"
+              onChange={(event) =>
+                setNewClaim({
+                  ...newClaim,
+                  currencyId: String(event.target.value),
+                })
+              }
+              sx={{ width: "100px" }}
+            >
+              <MenuItem value={"SGD"}>SGD</MenuItem>
+              <MenuItem value={"AUD"}>AUD</MenuItem>
+              <MenuItem value={"RMB"}>RMB</MenuItem>
+            </Select>
             <TextFieldStyled
               id="txt_claimAmount"
               variant="outlined"
@@ -118,6 +137,26 @@ const UpdateClaim = ({ claim }: Props) => {
             />
           </td>
         </tr>
+        {/* <tr>
+          <td>
+            <h3>Claim Amount: </h3>
+          </td>
+          <SpacingTd></SpacingTd>
+          <td>
+            <TextFieldStyled
+              id="txt_claimAmount"
+              variant="outlined"
+              type="number"
+              value={claim ? newClaim.amount : null}
+              onChange={(event) =>
+                setNewClaim({
+                  ...newClaim,
+                  amount: Number(event.target.value),
+                })
+              }
+            />
+          </td>
+        </tr> */}
         <tr>
           <td>
             <h3>Purpose: </h3>

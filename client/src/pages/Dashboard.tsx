@@ -1,35 +1,43 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Typography,
+  Stack,
+  Button,
+  Paper,
+  TableRow,
+  TableHead,
+  TableContainer,
+  TableCell,
+  TableBody,
+  Table,
+} from "@mui/material";
 
 function createData(
   claimId: number,
   projectId: number,
   currencyId: string,
+  amount: number,
   status: string
 ) {
-  return { claimId, projectId, currencyId, status };
+  return { claimId, projectId, currencyId, amount, status };
 }
 
 const rows = [
-  createData(11147, 10001, "SGD", "pending"),
-  createData(11148, 10001, "SGD", "pending"),
-  createData(11149, 10001, "SGD", "approved"),
-  createData(11150, 10001, "SGD", "rejected"),
+  createData(11147, 10001, "SGD", 123, "pending"),
+  createData(11148, 10001, "SGD", 123, "pending"),
+  createData(11149, 10001, "SGD", 256, "approved"),
+  createData(11150, 10001, "SGD", 26, "rejected"),
 ];
 
 function getFontColor(value: string) {
@@ -42,7 +50,58 @@ function getFontColor(value: string) {
   }
 }
 
+function AlertDialog() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Open alert dialog
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Delete the claim?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Let Google help apps determine location. This means sending
+            anonymous location data to Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Delete</Button>
+          <Button onClick={handleClose} autoFocus>
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
 export default function Dashboard() {
+  // for delete dialogue
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const navigate = useNavigate();
+
   //   const [claims, setClaims] = useState([]);
   //   useEffect(() => {
   //     getClaims();
@@ -93,6 +152,7 @@ export default function Dashboard() {
                 <TableCell>Claim ID</TableCell>
                 <TableCell align="center">Project ID</TableCell>
                 <TableCell align="center">Currency</TableCell>
+                <TableCell align="center">Amount</TableCell>
                 <TableCell align="center">Status of claim</TableCell>
                 {/* <TableCell align="center">Protein&nbsp;(g)</TableCell> */}
                 <TableCell align="left">Actions</TableCell>
@@ -113,6 +173,9 @@ export default function Dashboard() {
                   <TableCell align="center" sx={{ p: { xs: 2 } }}>
                     {row.currencyId}
                   </TableCell>
+                  <TableCell align="center" sx={{ p: { xs: 2 } }}>
+                    {row.amount}
+                  </TableCell>
                   <TableCell
                     align="center"
                     sx={{
@@ -126,10 +189,11 @@ export default function Dashboard() {
                     {/* <Link to="/editclaim">Edit</Link> */}
                     <Stack direction="row" spacing={2}>
                       <Button
-                        component={Link}
-                        to="/editclaim"
                         variant="outlined"
                         endIcon={<EditIcon />}
+                        onClick={() =>
+                          navigate("/editclaim", { state: { claim: row } })
+                        }
                       >
                         Edit
                       </Button>
@@ -137,6 +201,7 @@ export default function Dashboard() {
                         variant="contained"
                         color="error"
                         endIcon={<DeleteIcon />}
+                        // onClick={() => AlertDialog()}
                       >
                         Delete
                       </Button>
