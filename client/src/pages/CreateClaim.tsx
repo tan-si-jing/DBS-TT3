@@ -38,7 +38,7 @@ const CreateClaim = ({claim}: Props) => {
   }
 
   const onSubmit = () => {
-    console.log(initialClaim);
+    console.log('====== submittedClaim: ', initialClaim);
   }
 
   return (
