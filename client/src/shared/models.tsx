@@ -8,25 +8,24 @@ export interface Employee {
   bankAccountNumber: string;
 }
 
-export interface EmployeeProjects {
-  projectId?: number;
-  employeeId: number;
-  projectName: string;
-  projectStatus: string;
-  projectBudget: number;
-  projectLeadId: string; // Maybe number
+export interface Projects {
+    projectId?: number;
+    projectName: string;
+    projectStatus: string;
+    projectBudget: number;
+    projectLeadId: string; // Maybe number
 }
 
 export interface ProjectExpensesClaims {
-  claimId?: number;
-  projectId: number;
-  employeeId: number;
-  currencyId: string;
-  expenseDate: Date;
-  amount: number;
-  purpose: string;
-  // Image
-  alternativeDeptCode: string;
-  status: string;
-  lastEditedClaimDate: string;
+    claimId?: number | null;
+    projectId: number | null;
+    employeeId: number;
+    currencyId: string;
+    expenseDate: Date | null;
+    amount: number;
+    purpose: string;
+    // Image
+    alternativeDeptCode: string;
+    status: string;
+    lastEditedClaimDate: string;
 }

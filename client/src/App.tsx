@@ -12,10 +12,14 @@ import MainNavigation from "./components/MainNavigation";
 import Login from "./components/Login";
 import Register from "./components/Register";
 
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 const App = () => {
   return (
     <div className="vh-100 gradient-custom">
       <div className="container">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
         <BrowserRouter>
           <MainNavigation />
           <Routes>
@@ -27,6 +31,7 @@ const App = () => {
             <Route path="/auth/register" element={<Register/>}/>
           </Routes>
         </BrowserRouter>
+        </LocalizationProvider>
       </div>
     </div>
   );
