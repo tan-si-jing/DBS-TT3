@@ -1,37 +1,37 @@
 from flask import request, jsonify, session
 from flask_jwt_extended import create_access_token
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import set_access_cookies 
+from flask_jwt_extended import unset_jwt_cookies
 from app.authentication import authen
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
+from authentication.app import Employee
 
 @authen.route('/login', methods=['POST'])
 def login():
     login_data = request.get_json()
-    email = login_data.get('email')
+    employee_id = login_data.get('employee_id')
     password = login_data.get('password')    
 
-    user = User.query.filter_by(email=email).first()    
+    user = Employee.query.filter_by(employee_id=employee_id).first()    
 
     if not user:
         return {
-            "message": "Email does not exist!"
+            "message": "Employee ID does not exist!"
         }, 401
-    if 'login_attempts' not in session:
-        session['login_attempts'] = 1
     if not check_password_hash(user.password, password):    
-        session['login_attempts'] += 1
-        if session['login_attempts'] > 3:
-            return {
-                "message": "Password is incorrect! You've logged in more than 3 times wrongly!"
-            }, 403
-        
         return {
             "message": "Password is incorrect!"
         }, 401
     
-    session.pop('login_attemps', None)
-    if 'name' not in session:
-        session['name'] = user.name
-    access_token = create_access_token(identity=user.name)
-    return {
-        "access_token": access_token
-    }
+    response = jsonify({"message": "login successful"})
+    access_token = create_access_token(identity=user)
+    set_access_cookies(response, access_token)
+    return response, 200
+
+@authen.route('/logout')
+@jwt_required()
+def logout():
+    response = jsonify({"message": "logout successful"})
+    unset_jwt_cookies(response)
+    return response, 200
