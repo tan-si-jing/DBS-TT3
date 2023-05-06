@@ -6,6 +6,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        defaultValue: 10000
       },
       ExpenseDate: {
         type: Sequelize.DATE,
