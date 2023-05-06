@@ -164,7 +164,7 @@ VALUES (10005, "Core Banking System Migration", "In Progress", 20000, 10010);
 INSERT INTO Projects (ProjectID, ProjectName, ProjectStatus, ProjectBudget, ProjectLeadID)
 VALUES (10006, "Digital Onboarding Platform", "Yet To Commence", 35000, 10012);
 INSERT INTO Projects (ProjectID, ProjectName, ProjectStatus, ProjectBudget, ProjectLeadID)
-VALUES (10007, "Trade Finance Automation", "Completed", 27000, 10014);
+VALUES (10007, "Trade Finance Automation", "Completed", 27000, 10012);
 INSERT INTO Projects (ProjectID, ProjectName, ProjectStatus, ProjectBudget, ProjectLeadID)
 VALUES (10008, "Customer Data Management System", "In Progress", 19000, 10016);
 INSERT INTO Projects (ProjectID, ProjectName, ProjectStatus, ProjectBudget, ProjectLeadID)
@@ -216,7 +216,7 @@ VALUES (11147, 10001, 10011, "SGD", "2023-04-29T08:30:00+08:00", 100.50, "Bankin
 INSERT INTO ProjectExpenseClaims (ClaimID, ProjectID, EmployeeID, CurrencyID, ExpenseDate, Amount, Purpose, ChargeToDefaultDept, AlternativeDeptCode, Status, LastEditedClaimDate)
 VALUES (11148, 10002, 10015, "IDR", "2023-04-28T10:00:00+08:00", 250.75, "Operations", 0, "", "Approved", "2023-04-30T11:30:00+08:00");
 INSERT INTO ProjectExpenseClaims (ClaimID, ProjectID, EmployeeID, CurrencyID, ExpenseDate, Amount, Purpose, ChargeToDefaultDept, AlternativeDeptCode, Status, LastEditedClaimDate)
-VALUES (11149, 10003, 10014, "JPY", "2023-04-27T13:45:00+08:00", 500.00, "Banking operations", 0, "", "Rejected", "2023-04-30T12:15:00+08:00");
+VALUES (11149, 10003, 10012, "JPY", "2023-04-27T13:45:00+08:00", 500.00, "Banking operations", 0, "", "Rejected", "2023-04-30T12:15:00+08:00");
 INSERT INTO ProjectExpenseClaims (ClaimID, ProjectID, EmployeeID, CurrencyID, ExpenseDate, Amount, Purpose, ChargeToDefaultDept, AlternativeDeptCode, Status, LastEditedClaimDate)
 VALUES (11150, 10004, 10018, "SGD", "2023-04-26T15:30:00+08:00", 175.25, "Banking tech", 1, "105", "Pending", "2023-04-30T13:00:00+08:00");
 INSERT INTO ProjectExpenseClaims (ClaimID, ProjectID, EmployeeID, CurrencyID, ExpenseDate, Amount, Purpose, ChargeToDefaultDept, AlternativeDeptCode, Status, LastEditedClaimDate)
@@ -264,11 +264,11 @@ VALUES (11216, 10005, 10011, "SGD", "2023-04-29T08:30:00+08:00", 56.72, "Banking
 INSERT INTO ProjectExpenseClaims (ClaimID, ProjectID, EmployeeID, CurrencyID, ExpenseDate, Amount, Purpose, ChargeToDefaultDept, AlternativeDeptCode, Status, LastEditedClaimDate)
 VALUES (11218, 10001, 10013, "IDR", "2023-04-26T15:15:00+08:00", 900000.00, "Marketing Campaign Expenses", 0, "", "Rejected", "2023-04-27T11:30:00+08:00");
 INSERT INTO ProjectExpenseClaims (ClaimID, ProjectID, EmployeeID, CurrencyID, ExpenseDate, Amount, Purpose, ChargeToDefaultDept, AlternativeDeptCode, Status, LastEditedClaimDate)
-VALUES (11219, 10003, 10014, "HKD", "2023-04-24T12:30:00+08:00", 1200.50, "Office Supplies Purchase", 0, "", "Pending", "2023-04-26T16:45:00+08:00");
+VALUES (11219, 10003, 10012, "HKD", "2023-04-24T12:30:00+08:00", 1200.50, "Office Supplies Purchase", 0, "", "Pending", "2023-04-26T16:45:00+08:00");
 INSERT INTO ProjectExpenseClaims (ClaimID, ProjectID, EmployeeID, CurrencyID, ExpenseDate, Amount, Purpose, ChargeToDefaultDept, AlternativeDeptCode, Status, LastEditedClaimDate)
 VALUES (11221, 10007, 10016, "INR", "2023-04-22T14:45:00+08:00", 3000.00, "Travel Expenses", 0, "", "Pending", "2023-04-24T16:30:00+08:00");
 INSERT INTO ProjectExpenseClaims (ClaimID, ProjectID, EmployeeID, CurrencyID, ExpenseDate, Amount, Purpose, ChargeToDefaultDept, AlternativeDeptCode, Status, LastEditedClaimDate)
-VALUES (11222, 10008, 10014, "VND", "2023-04-22T13:30:00+08:00", 450000.00, "Banking equipment repair", 0, "103", "Rejected", "2023-04-23T14:00:00+08:00");
+VALUES (11222, 10008, 10012, "VND", "2023-04-22T13:30:00+08:00", 450000.00, "Banking equipment repair", 0, "103", "Rejected", "2023-04-23T14:00:00+08:00");
 INSERT INTO ProjectExpenseClaims (ClaimID, ProjectID, EmployeeID, CurrencyID, ExpenseDate, Amount, Purpose, ChargeToDefaultDept, AlternativeDeptCode, Status, LastEditedClaimDate)
 VALUES (11223, 10006, 10019, "HKD", "2023-04-27T09:00:00+08:00", 800.00, "Banking operations training course", 0, "", "Pending", "2023-04-27T16:30:00+08:00");
 INSERT INTO ProjectExpenseClaims (ClaimID, ProjectID, EmployeeID, CurrencyID, ExpenseDate, Amount, Purpose, ChargeToDefaultDept, AlternativeDeptCode, Status, LastEditedClaimDate)
