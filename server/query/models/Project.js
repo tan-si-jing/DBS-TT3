@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
-  const EmployeeProjects = sequelize.define(
-    "EmployeeProjects",
+  const Project = sequelize.define(
+    "Project",
     {
       ProjectID: {
         type: Sequelize.INTEGER,
@@ -21,5 +21,5 @@ module.exports = (sequelize, Sequelize) => {
       },
     }, { timestamps: false }
   );
-  return EmployeeProjects;
+  return Project;
 };
