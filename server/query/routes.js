@@ -9,7 +9,7 @@ module.exports = function(app) {
     app.post("/api/claim", isLoggedIn, transactionController.create);
     app.put("/api/claim/:id", isLoggedIn, transactionController.edit);
     app.delete("/api/claim/:id", isLoggedIn, transactionController.cancel);
-    app.get('/api/currencies', isLoggedIn, currencyController)
+    app.get('/api/currencies', isLoggedIn, currencyController.index)
 
     function isLoggedIn (req, res, next) {
         let token = req.headers["x-access-token"];
@@ -29,7 +29,7 @@ module.exports = function(app) {
                 .status(401)
                 .send({ message: "An error occured. Please try again. Error: " + err });  
           }
-          req.body.params.employeeId = decoded.id;
+          req.body.params.id = decoded.id;
           next();
         });
       };
