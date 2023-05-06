@@ -21,6 +21,7 @@ import {
   TableCell,
   TableBody,
   Table,
+  Alert,
 } from "@mui/material";
 
 function createData(
@@ -52,54 +53,23 @@ function getFontColor(value: string) {
   }
 }
 
-function AlertDialog() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Delete the claim?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Delete</Button>
-          <Button onClick={handleClose} autoFocus>
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-}
-
 export default function Dashboard() {
   // for delete dialogue
   const [open, setOpen] = React.useState(false);
+  const [deletedec, setDeleteDec] = React.useState(false);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleDeletionClose = () => {
+    setOpen(false);
+    setDeleteDec(true);
+    setTimeout(() => {
+      setDeleteDec(false);
+    }, 2000);
   };
 
   const navigate = useNavigate();
@@ -142,6 +112,11 @@ export default function Dashboard() {
         List of Claims
       </Typography>
       {/* component={Paper} */}
+      {deletedec && (
+        <Alert sx={{ ml: 25, mr: 23 }} severity="error">
+          You have successfully deleted your claim.
+        </Alert>
+      )}
       <Typography sx={{ alignItems: "center", ml: 25, mr: 23 }}>
         <TableContainer>
           <Table
@@ -203,10 +178,35 @@ export default function Dashboard() {
                         variant="contained"
                         color="error"
                         endIcon={<DeleteIcon />}
-                        // onClick={() => AlertDialog()}
+                        onClick={handleClickOpen}
                       >
                         Delete
                       </Button>
+                      <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogTitle id="alert-dialog-title">
+                          {"Delete your claim?"}
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            Please note that deletion of your claim is
+                            irreversible. Click 'Confirm' to delete your claim,
+                            otherwise, click 'Cancel'.
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button color="error" onClick={handleDeletionClose}>
+                            Confirm
+                          </Button>
+                          <Button onClick={handleClose} autoFocus>
+                            Cancel
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
                     </Stack>
                   </TableCell>
                 </TableRow>
