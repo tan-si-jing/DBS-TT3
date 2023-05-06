@@ -17,13 +17,12 @@ const CreateClaim = ({claim}: Props) => {
   const navigate = useNavigate();
   
 
-  const [initialClaim, setInitialClaim] = useState({
+  const [initialClaim, setInitialClaim] = useState(!claim ? {
     expenseDate: dayjs(new Date()),
     amount: 0,
-    purpose: '',
-    alternativeDeptCode: '',
-    previousClaimId: 0,
-  });
+    currencyId: '',
+    purpose: ''
+  } : claim);
 
   const [hasFollowUp, setHasFollowUp] = useState(false);
 
@@ -54,31 +53,13 @@ const CreateClaim = ({claim}: Props) => {
       <br />
 
       <table>
-        {/* <tr>
-          <td>
-          <h3>First Name:</h3>
-          </td>
-          <SpacingTd></SpacingTd>
-          <td>
-          <TextFieldStyled id="txt_firstName" variant="outlined" value={initialClaim.textFieldValue}/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-          <h3>Last Name:</h3>
-          </td>
-          <SpacingTd></SpacingTd>
-          <td>
-          <TextFieldStyled id="txt_lastName" variant="outlined" />
-          </td>
-        </tr> */}
         <tr>
           <td>
           <h3>Claim Date: </h3>
           </td>
           <SpacingTd></SpacingTd>
           <td>
-          <DatePicker sx={{width: '500px'}} value={claim ? initialClaim.expenseDate : null} onChange={(value) => setInitialClaim({
+          <DatePicker sx={{width: '500px'}} format="DD-MM-YYYY" maxDate={dayjs(new Date())} value={claim ? initialClaim.expenseDate : null} onChange={(value) => setInitialClaim({
             ...initialClaim,
             expenseDate: dayjs(value)
           })}/>
@@ -90,6 +71,22 @@ const CreateClaim = ({claim}: Props) => {
           </td>
           <SpacingTd></SpacingTd>
           <td>
+          <Select
+              labelId="select-currency"
+              id="select-currency"
+              defaultValue="SGD"
+              value={initialClaim.currencyId}
+              label="Currency"
+              onChange={(event) => setInitialClaim({
+                ...initialClaim,
+                currencyId: String(event.target.value)
+              })}
+              sx={{width: '100px'}}
+            >
+              <MenuItem value={'SGD'}>SGD</MenuItem>
+              <MenuItem value={'AUD'}>AUD</MenuItem>
+              <MenuItem value={'RMB'}>RMB</MenuItem>
+            </Select>
           <TextFieldStyled id="txt_claimAmount" variant="outlined" type="number" value={claim ? initialClaim.amount : null} onChange={(event) => setInitialClaim({
             ...initialClaim,
             amount: Number(event.target.value)
@@ -145,8 +142,7 @@ const CreateClaim = ({claim}: Props) => {
               value={10}
               label="Claim"
               onChange={(event) => setInitialClaim({
-                ...initialClaim,
-                previousClaimId: Number(event.target.value)
+                ...initialClaim
               })}
               sx={{width: '500px'}}
             >
