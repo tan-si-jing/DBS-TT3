@@ -11,7 +11,7 @@ class Config(object):
     # SESSION_PERMANENT = False
     # SESSION_TYPE = "filesystem"
     JWT_SECRET_KEY = 'some_password'
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=2)
 
 class DevConfig(Config):
     ENV = "development"
