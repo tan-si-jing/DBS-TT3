@@ -11,6 +11,8 @@ import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Typography } from "@mui/material";
+import Box from "@mui/material/Box";
 
 function createData(
   claimId: number,
@@ -40,58 +42,82 @@ const rows = [
 
 export default function BasicTable() {
   return (
-    <div>
-      <h2>List of Claims</h2>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Claim ID</TableCell>
-              <TableCell align="center">Project ID</TableCell>
-              <TableCell align="center">Currency</TableCell>
-              <TableCell align="center">Status of claim</TableCell>
-              {/* <TableCell align="center">Protein&nbsp;(g)</TableCell> */}
-              <TableCell align="left">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.claimId}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.claimId}
-                </TableCell>
-                <TableCell align="center">{row.projectId}</TableCell>
-                <TableCell align="center">{row.currencyId}</TableCell>
-                <TableCell align="center">{row.status}</TableCell>
-                {/* <TableCell align="right">{row.protein}</TableCell> */}
-                <TableCell align="center">
-                  {/* <Link to="/editclaim">Edit</Link> */}
-                  <Stack direction="row" spacing={1}>
-                    <Button
-                      component={Link}
-                      to="/editclaim"
-                      variant="outlined"
-                      endIcon={<EditIcon />}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      endIcon={<DeleteIcon />}
-                    >
-                      Delete
-                    </Button>
-                  </Stack>
-                </TableCell>
+    <div className="">
+      <Typography
+        sx={{
+          fontFamily: "Quicksand",
+          p: { xs: 2, md: 3 },
+          fontWeight: "medium",
+          ml: 23,
+        }}
+        variant="h5"
+        color="inherit"
+        noWrap
+      >
+        List of Claims
+      </Typography>
+      {/* component={Paper} */}
+      <Typography sx={{ alignItems: "center", ml: 25, mr: 23 }}>
+        <TableContainer>
+          <Table
+            sx={{ align: "center" }}
+            size="small"
+            aria-label="simple table"
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell>Claim ID</TableCell>
+                <TableCell align="center">Project ID</TableCell>
+                <TableCell align="center">Currency</TableCell>
+                <TableCell align="center">Status of claim</TableCell>
+                {/* <TableCell align="center">Protein&nbsp;(g)</TableCell> */}
+                <TableCell align="left">Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow
+                  key={row.claimId}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {row.claimId}
+                  </TableCell>
+                  <TableCell align="center" sx={{ p: { xs: 2 } }}>
+                    {row.projectId}
+                  </TableCell>
+                  <TableCell align="center" sx={{ p: { xs: 2 } }}>
+                    {row.currencyId}
+                  </TableCell>
+                  <TableCell align="center" sx={{ p: { xs: 2 } }}>
+                    {row.status}
+                  </TableCell>
+                  <TableCell align="center">
+                    {/* <Link to="/editclaim">Edit</Link> */}
+                    <Stack direction="row" spacing={2}>
+                      <Button
+                        component={Link}
+                        to="/editclaim"
+                        variant="outlined"
+                        endIcon={<EditIcon />}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        endIcon={<DeleteIcon />}
+                      >
+                        Delete
+                      </Button>
+                    </Stack>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Typography>
     </div>
   );
 }
