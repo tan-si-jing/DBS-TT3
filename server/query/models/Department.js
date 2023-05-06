@@ -3,9 +3,8 @@ module.exports = (sequelize, Sequelize) => {
     "Department",
     {
       DepartmentCode: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING(20),
         primaryKey: true,
-        autoIncrement: true,
       },
       DepartmentName: {
         type: Sequelize.STRING(50),

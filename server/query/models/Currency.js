@@ -3,9 +3,8 @@ module.exports = (sequelize, Sequelize) => {
       "Currency",
       {
         CurrencyID: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.VARCHAR(20),
           primaryKey: true,
-          autoIncrement: true,
         },
         ExchangeRate: {
           type: Sequelize.STRING(50),
