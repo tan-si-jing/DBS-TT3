@@ -62,6 +62,7 @@ CREATE TABLE Currency (
 
 CREATE TABLE ProjectExpenseClaims (
     ClaimID int NOT NULL,
+    FollowUpID int,
     ProjectID int NOT NULL,
     EmployeeID int NOT NULL,
     CurrencyID varchar(50) NOT NULL,
@@ -77,10 +78,12 @@ CREATE TABLE ProjectExpenseClaims (
     FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID),
     FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID),
     FOREIGN KEY (CurrencyID) REFERENCES Currency(CurrencyID),
+    FOREIGN KEY (FollowUpID) REFERENCES ProjectExpenseClaims(ClaimID),
 
     CONSTRAINT CheckClaimStatus CHECK (Status IN ('pending', 'approved', 'rejected')),
     CONSTRAINT CheckEditedClaimDate CHECK (ExpenseDate <= LastEditedClaimDate)
 );
+
 
 
 INSERT INTO Department (DepartmentCode, DepartmentName)

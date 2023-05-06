@@ -3,7 +3,7 @@ module.exports = (sequelize, Sequelize) => {
       "Currency",
       {
         CurrencyID: {
-          type: Sequelize.VARCHAR(20),
+          type: Sequelize.STRING(20),
           primaryKey: true,
         },
         ExchangeRate: {
