@@ -34,7 +34,15 @@ function createData(
   expenseDate: Date,
   purpose: string
 ) {
-  return { claimId, projectId, currencyId, amount, status, expenseDate, purpose };
+  return {
+    claimId,
+    projectId,
+    currencyId,
+    amount,
+    status,
+    expenseDate,
+    purpose,
+  };
 }
 
 // const employeeClaims = [
@@ -59,7 +67,9 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(false);
   const [deletedec, setDeleteDec] = React.useState(false);
 
-  const [employeeClaims, setEmployeeClaims] = useState<ProjectExpensesClaims[]>([]);
+  const [employeeClaims, setEmployeeClaims] = useState<ProjectExpensesClaims[]>(
+    []
+  );
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -80,27 +90,30 @@ export default function Dashboard() {
   const [currencies, setCurrencies] = useState([]);
 
   const getCurrencies = async () => {
-    return await axios.get("http://localhost:8080/api/currencies").then((response) => {
-      console.log('====== data', response.data);
-       setCurrencies(response.data)
-     })
-  }
+    return await axios
+      .get("http://localhost:8080/api/currencies")
+      .then((response) => {
+        console.log("====== data", response.data);
+        setCurrencies(response.data);
+      });
+  };
 
-   if(currencies.length === 0) {
+  if (currencies.length === 0) {
     getCurrencies();
-   }
-
-   const data = {
-    employeeId: 10015
-   }
-
-
-   const getDashboard = async () => {
-    return await axios.post("http://localhost:8080/api/dashboard", data).then((response) => {
-      console.log('====== data', response.data);
-      setEmployeeClaims(response.data);
-     })
   }
+
+  const data = {
+    employeeId: 10015,
+  };
+
+  const getDashboard = async () => {
+    return await axios
+      .post("http://localhost:8080/api/dashboard", data)
+      .then((response) => {
+        console.log("====== data", response.data);
+        setEmployeeClaims(response.data);
+      });
+  };
 
   getDashboard();
 
@@ -116,15 +129,24 @@ export default function Dashboard() {
   //     });
   //   }
 
-  // const deleteClaim = (id) => {
+  // const deleteClaim = async () => {
   //     axios
-  //       .delete(`http://127.0.0.1:5000/userdelete/${id}`)
+  //       .delete(`http://localhost:5000/userdelete/${id}`)
   //       .then(function (response) {
   //         console.log(response.data);
   //         getUsers();
   //       });
   //     alert("Successfully Deleted");
   //   };
+
+  const handleDelete = async (id: any) => {
+    try {
+      await axios.delete("http://localhost:8080/api/claim/" + id);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="">
@@ -199,7 +221,9 @@ export default function Dashboard() {
                         variant="outlined"
                         endIcon={<EditIcon />}
                         onClick={() =>
-                          navigate("/editclaim", { state: { claim: row, currencies: currencies } })
+                          navigate("/editclaim", {
+                            state: { claim: row, currencies: currencies },
+                          })
                         }
                       >
                         Edit
@@ -229,7 +253,14 @@ export default function Dashboard() {
                           </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                          <Button color="error" onClick={handleDeletionClose}>
+                          <Button
+                            color="error"
+                            onClick={() => {
+                              // handleDeletionClose;
+                              handleDelete(row.ClaimID);
+                            }}
+                            // onClick={handleDeletionClose}
+                          >
                             Confirm
                           </Button>
                           <Button onClick={handleClose} autoFocus>
