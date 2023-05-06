@@ -1,10 +1,21 @@
 import React, { useState } from "react";
+// import express from "express";
+// import cors from "cors";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate, Link } from "react-router-dom";
 import classes from "./AuthForm.module.css";
 
 function Login() {
+    // // const express = require('express');
+    // // const cors = require('cors');
+    
+    // const app = express();
+    
+    // // 👇️ configure CORS
+    // app.use(express.json())
+    // app.use(cors());
+
     const [_, setCookies] = useCookies(["access_token"]);
 
     const [username, setUsername] = useState("");
@@ -23,7 +34,7 @@ function Login() {
         setCookies("access_token", response.data.token);
 
         window.localStorage.setItem("userID", response.data.userID);
-        navigate("/");
+        navigate("/dashboard");
       } catch (error) {
         console.error(error);
       }

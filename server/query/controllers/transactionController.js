@@ -4,9 +4,7 @@ const Claims = db.claim;
 module.exports = {
   async create(req, res) {
     try {
-        console.log(req)
         Claims.create({
-            ClaimID: req.body.claimID,
             ProjectID: req.body.projectID,
             EmployeeID: req.body.employeeID,
             CurrencyID: req.body.currencyID,
@@ -53,8 +51,9 @@ module.exports = {
         where: {
           claimID: req.params.id,
         },
+      }).then(()=>{
+        res.status(200).send()
       });
-      res.status(200);
     } catch (err) {
       res.status(500).send({
         error: err.message || "An error has occurred trying to cancel claim.",
