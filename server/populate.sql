@@ -1,3 +1,5 @@
+SET SQL_SAFE_UPDATES = 0;
+
 CREATE DATABASE IF NOT EXISTS ClaimSystem;
 USE ClaimSystem;
 
@@ -81,4 +83,23 @@ CREATE TABLE ProjectExpenseClaims (
 );
 
 
-SHOW TABLES
+INSERT INTO Department (DepartmentCode, DepartmentName)
+VALUES ("102", "Marketing");
+
+INSERT INTO Department (DepartmentCode, DepartmentName)
+VALUES ("103", "Cleaning");
+
+INSERT INTO Employee (EmployeeID, SupervisorID, DepartmentCode, Password, FirstName, LastName, BankAccountNumber)
+VALUES (10003, null, "102", "DBSBestBank2022", "Jerry", "Lim", "266177999");
+
+INSERT INTO Employee (EmployeeID, SupervisorID, DepartmentCode, Password, FirstName, LastName, BankAccountNumber)
+VALUES (10001, 10003, "102", "DBSBestBank2022", "Tom", "Lim", "266177888");
+
+INSERT INTO Projects (ProjectID, ProjectName, ProjectStatus, ProjectBudget, ProjectLeadID)
+VALUES (10005, "Project Name", "in progress", 0.99, 10003);
+
+INSERT INTO Currnecy (CurrnecyID, ExchangeRate)
+VALUES ("MYR", 3.30);
+
+INSERT INTO EmployeeProjects (ClaimID, ProjectID, EmployeeID, CurrencyID, ExpenseDate, Amount, Purpose, ChargeToDefaultDept, AlternativeDeptCode, Status, LastEditedClaimDate)
+VALUES (11147, 10005, 10001, "MYR", '20120618 10:34:09 AM', 20000.0, "Venue Procurement", true, "103", "pending", null)
