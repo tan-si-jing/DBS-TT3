@@ -39,6 +39,13 @@ db.project.hasMany(db.claim, {
   foreignKey: 'ProjectID',
   onDelete: 'CASCADE'
 });
+db.project.belongsTo(db.employee, {
+  timestamps: false,
+  foreignKey: {
+    name: 'ProjectLeadID',
+    allowNull: false
+  }
+});
 
 // each currency has many claims
 db.currency.hasMany(db.claim,{
