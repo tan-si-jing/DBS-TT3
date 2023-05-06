@@ -27,27 +27,29 @@ const UpdateClaim = () => {
   console.log("==== claim", claim);
 
   const [initialClaim, setInitialClaim] = useState(!claim ? {
-    expenseDate: dayjs(new Date()),
-    amount: 0,
-    currencyId: "",
-    purpose: "",
+    ExpenseDate: dayjs(new Date()),
+    Amount: 0,
+    CurrencyID: "",
+    Purpose: "",
   }: claim);
 
-  //   const onSave = async (e) => {
-  //     e.preventDefault();
-  //     try{
-  //         await axios.put("<put api>"+ claimId, newClaim);
-  //         navigate("/dashboard");
-  //     } catch (err) {
-  //         console.log(err)
-  //     }
-  //   }
+  const onSave = async () => {
 
-  const onSubmit = () => {
-    console.log(initialClaim);
-    navigate("/dashboard");
-  };
+    delete claim.Status;
+    delete claim.lastEditedClaimDate;
 
+    const data = {
+      ...claim,
+      ...initialClaim
+    }
+
+    console.log('===== update data', data);
+    await axios.put("http://localhost:8080/api/claim/" + claim.ClaimID, data).then((response) => {
+      console.log('====== data', response.data);
+     })
+     navigate("/dashboard");
+  }
+  
   return (
     <Grid
       container
@@ -70,12 +72,12 @@ const UpdateClaim = () => {
             <DatePicker
               sx={{ width: "500px" }}
               format="DD-MM-YYYY"
-              value={dayjs(initialClaim.expenseDate, {format: 'DD-MM-YYYY'})}
+              value={dayjs(initialClaim.ExpenseDate, {format: 'DD-MM-YYYY'})}
               maxDate={dayjs(new Date())}
               onChange={(value) =>
                 setInitialClaim({
                   ...initialClaim,
-                  expenseDate: dayjs(value),
+                  ExpenseDate: dayjs(value),
                 })
               }
             />
@@ -90,12 +92,12 @@ const UpdateClaim = () => {
             <Select
               labelId="select-currency"
               id="select-currency"
-              value={initialClaim.currencyId}
+              value={initialClaim.CurrencyID}
               label="Currency"
               onChange={(event) =>
                 setInitialClaim({
                   ...initialClaim,
-                  currencyId: String(event.target.value),
+                  CurrencyID: String(event.target.value),
                 })
               }
               sx={{ width: "100px" }}
@@ -104,9 +106,9 @@ const UpdateClaim = () => {
                 <MenuItem value={item}>{item}</MenuItem>
               ))}
             </Select>
-          <TextField sx={{width: '400px'}} id="txt_claimAmount" variant="outlined" type="number" value={claim ? initialClaim.amount : null} onChange={(event) => setInitialClaim({
+          <TextField sx={{width: '400px'}} id="txt_claimAmount" variant="outlined" type="number" value={claim ? initialClaim.Amount : null} onChange={(event) => setInitialClaim({
             ...initialClaim,
-            amount: Number(event.target.value)
+            Amount: Number(event.target.value)
           })}/>
           </td>
         </tr>
@@ -120,11 +122,11 @@ const UpdateClaim = () => {
               multiline
               rows={4}
               maxRows={4}
-              value={initialClaim.purpose}
+              value={initialClaim.Purpose}
               onChange={(event) =>
                 setInitialClaim({
                   ...initialClaim,
-                  purpose: event.target.value,
+                  Purpose: event.target.value,
                 })
               }
             />
@@ -133,7 +135,7 @@ const UpdateClaim = () => {
         <br />
         <CenterTr>
           <td>
-            <Button variant="contained" size="large" onClick={() => onSubmit()}>
+            <Button variant="contained" size="large" onClick={() => onSave()}>
               Save
             </Button>
           </td>

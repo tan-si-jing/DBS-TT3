@@ -5,7 +5,8 @@ module.exports = (sequelize, Sequelize) => {
       ClaimID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        defaultValue: 6000,
       },
       ProjectID: {
         type: Sequelize.INTEGER,

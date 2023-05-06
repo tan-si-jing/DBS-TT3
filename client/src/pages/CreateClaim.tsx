@@ -17,7 +17,6 @@ import dayjs from "dayjs";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import axios from "axios";
-import { getCurrencies } from "../shared/common";
 
 const CreateClaim = () => {
   const navigate = useNavigate();
@@ -26,10 +25,14 @@ const CreateClaim = () => {
   const currencies: string[] = location.state.currencies ? location.state.currencies : [];
 
   const [initialClaim, setInitialClaim] = useState({
-    expenseDate: dayjs(new Date()),
-    amount: 0,
-    currencyId: "SGD",
-    purpose: ''
+    ExpenseDate: dayjs(new Date()),
+    Amount: 150,
+    CurrencyID: "SGD",
+    Purpose: '',
+    ProjectID: '11177',
+    EmployeeID: '10015',
+    AlternativeDeptCode: '',
+    ChargeToDefaultDept: false,
   });
   
 
@@ -46,8 +49,21 @@ const CreateClaim = () => {
     }
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     console.log("====== submittedClaim: ", initialClaim);
+    await axios.post("http://localhost:8080/api/claim", {
+      amount: initialClaim.Amount,
+      currencyID: initialClaim.CurrencyID,
+      purpose: initialClaim.Purpose,
+      projectID: '11177',
+      employeeID: '10015',
+      alternativeDeptCode: '',
+      chargeToDefaultDept: false,
+      expenseDate: initialClaim.ExpenseDate.format('YYYY-MM-DD HH:mm:ss')
+    }).then((response) => {
+      console.log('====== data', response.data);
+     })
+     navigate("/dashboard");
   };
 
   return (
@@ -73,11 +89,11 @@ const CreateClaim = () => {
               sx={{ width: "500px" }}
               format="DD-MM-YYYY"
               maxDate={dayjs(new Date())}
-              value={initialClaim.expenseDate}
+              value={initialClaim.ExpenseDate}
               onChange={(value) =>
                 setInitialClaim({
                   ...initialClaim,
-                  expenseDate: dayjs(value),
+                  ExpenseDate: dayjs(value),
                 })
               }
             />
@@ -92,12 +108,12 @@ const CreateClaim = () => {
             <Select
               labelId="select-currency"
               id="select-currency"
-              value={initialClaim.currencyId}
+              value={initialClaim.CurrencyID}
               label="Currency"
               onChange={(event) =>
                 setInitialClaim({
                   ...initialClaim,
-                  currencyId: String(event.target.value),
+                  CurrencyID: String(event.target.value),
                 })
               }
               sx={{ width: "100px" }}
@@ -106,9 +122,9 @@ const CreateClaim = () => {
                 <MenuItem value={item}>{item}</MenuItem>
               ))}
             </Select>
-          <TextField sx={{width: '400px'}} id="txt_claimAmount" variant="outlined" type="number" value={initialClaim.amount} onChange={(event) => setInitialClaim({
+          <TextField sx={{width: '400px'}} id="txt_claimAmount" variant="outlined" type="number" value={initialClaim.Amount} onChange={(event) => setInitialClaim({
             ...initialClaim,
-            amount: Number(event.target.value)
+            Amount: 150
           })}/>
           </td>
         </tr>
@@ -122,11 +138,11 @@ const CreateClaim = () => {
               multiline
               rows={4}
               maxRows={4}
-              value={initialClaim.purpose}
+              value={initialClaim.Purpose}
               onChange={(event) =>
                 setInitialClaim({
                   ...initialClaim,
-                  purpose: event.target.value,
+                  Purpose: event.target.value,
                 })
               }
             />
