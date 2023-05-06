@@ -8,6 +8,9 @@ import Dashboard from "./pages/Dashboard";
 import CreateClaim from "./pages/CreateClaim";
 import UpdateClaim from "./pages/UpdateClaim";
 
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 const App = () => {
   return (
     <div className="vh-100 gradient-custom">
@@ -17,6 +20,7 @@ const App = () => {
           MySql-Database
         </h1>
 
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
         <BrowserRouter>
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
@@ -24,6 +28,7 @@ const App = () => {
             <Route path="/editclaim" element={<UpdateClaim />} />
           </Routes>
         </BrowserRouter>
+        </LocalizationProvider>
       </div>
     </div>
   );

@@ -8,9 +8,8 @@ export interface Employee {
     bankAccountNumber: string;
 }
 
-export interface EmployeeProjects {
+export interface Projects {
     projectId?: number;
-    employeeId: number;
     projectName: string;
     projectStatus: string;
     projectBudget: number;
@@ -18,11 +17,11 @@ export interface EmployeeProjects {
 }
 
 export interface ProjectExpensesClaims {
-    claimId?: number;
-    projectId: number;
+    claimId?: number | null;
+    projectId: number | null;
     employeeId: number;
     currencyId: number;
-    expenseDate: Date;
+    expenseDate: Date | null;
     amount: number;
     purpose: string;
     // Image
