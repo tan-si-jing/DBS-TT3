@@ -95,6 +95,7 @@ function AlertDialog() {
 export default function Dashboard() {
   // for delete dialogue
   const [open, setOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -103,6 +104,19 @@ export default function Dashboard() {
   };
 
   const navigate = useNavigate();
+
+  const [currencies, setCurrencies] = useState([]);
+
+  const getCurrencies = async () => {
+    return await axios.get("http://localhost:8080/api/currencies").then((response) => {
+      console.log('====== data', response.data);
+       setCurrencies(response.data)
+     })
+   }
+
+   if(currencies.length === 0) {
+    getCurrencies();
+   }
 
   //   const [claims, setClaims] = useState([]);
   //   useEffect(() => {
@@ -194,7 +208,7 @@ export default function Dashboard() {
                         variant="outlined"
                         endIcon={<EditIcon />}
                         onClick={() =>
-                          navigate("/editclaim", { state: { claim: row } })
+                          navigate("/editclaim", { state: { claim: row, currencies: currencies } })
                         }
                       >
                         Edit
@@ -216,8 +230,9 @@ export default function Dashboard() {
         </TableContainer>
       </Typography>
       <Button
-        component={Link}
-        to="/createclaim"
+                        onClick={() =>
+                          navigate("/createclaim", { state: { currencies: currencies } })
+                        }
         variant="contained"
         color="success"
         sx={{ ml: 25, fontWeight: "thick" }}

@@ -22,6 +22,7 @@ const UpdateClaim = () => {
   const location = useLocation();
 
   const claim = location.state.claim;
+  const currencies: string[] = location.state.currencies ? location.state.currencies : [];
 
   console.log("==== claim", claim);
 
@@ -31,9 +32,6 @@ const UpdateClaim = () => {
     currencyId: "",
     purpose: "",
   }: claim);
-
-  console.log("==== initial claim", initialClaim);
-  const [currencies, setCurrencies] = useState(['SGD', 'CNY', 'HKD', 'IDR', 'JPY', 'KHR', 'KRW', 'TWD', 'VND']);
 
   //   const onSave = async (e) => {
   //     e.preventDefault();

@@ -14,31 +14,26 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import axios from "axios";
+import { getCurrencies } from "../shared/common";
 
-interface Props {
-  claim?: ProjectExpensesClaims;
-}
-
-const CreateClaim = ({ claim }: Props) => {
+const CreateClaim = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [initialClaim, setInitialClaim] = useState(!claim ? {
+  const currencies: string[] = location.state.currencies ? location.state.currencies : [];
+
+  const [initialClaim, setInitialClaim] = useState({
     expenseDate: dayjs(new Date()),
     amount: 0,
     currencyId: "SGD",
     purpose: ''
-  } : claim);
+  });
   
 
   const [hasFollowUp, setHasFollowUp] = useState(false);
-  const [currencies, setCurrencies] = useState(['SGD', 'CNY', 'HKD', 'IDR', 'JPY', 'KHR', 'KRW', 'TWD', 'VND']);
-
-  axios.get("http://localhost:8080/api/currencies").then((response) => {
-    console.log("===== DATA: ", response.data);
-  })
 
   const radioBtnOnChange = (event: any) => {
     switch (event.target.value) {
@@ -78,7 +73,7 @@ const CreateClaim = ({ claim }: Props) => {
               sx={{ width: "500px" }}
               format="DD-MM-YYYY"
               maxDate={dayjs(new Date())}
-              value={claim ? initialClaim.expenseDate : null}
+              value={initialClaim.expenseDate}
               onChange={(value) =>
                 setInitialClaim({
                   ...initialClaim,
@@ -111,7 +106,7 @@ const CreateClaim = ({ claim }: Props) => {
                 <MenuItem value={item}>{item}</MenuItem>
               ))}
             </Select>
-          <TextField sx={{width: '400px'}} id="txt_claimAmount" variant="outlined" type="number" value={claim ? initialClaim.amount : null} onChange={(event) => setInitialClaim({
+          <TextField sx={{width: '400px'}} id="txt_claimAmount" variant="outlined" type="number" value={initialClaim.amount} onChange={(event) => setInitialClaim({
             ...initialClaim,
             amount: Number(event.target.value)
           })}/>
