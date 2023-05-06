@@ -12,7 +12,9 @@ import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Typography } from "@mui/material";
-import Box from "@mui/material/Box";
+import AddIcon from "@mui/icons-material/Add";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function createData(
   claimId: number,
@@ -26,21 +28,33 @@ function createData(
 const rows = [
   createData(11147, 10001, "SGD", "pending"),
   createData(11148, 10001, "SGD", "pending"),
-  createData(11149, 10001, "SGD", "pending"),
-  createData(11150, 10001, "SGD", "pending"),
+  createData(11149, 10001, "SGD", "approved"),
+  createData(11150, 10001, "SGD", "rejected"),
 ];
 
-// const deleteClaim = (id) => {
-//     axios
-//       .delete(`http://127.0.0.1:5000/userdelete/${id}`)
-//       .then(function (response) {
-//         console.log(response.data);
-//         getUsers();
-//       });
-//     alert("Successfully Deleted");
-//   };
+export default function Dashboard() {
+  //   const [claims, setClaims] = useState([]);
+  //   useEffect(() => {
+  //     getClaims();
+  //   }, []);
 
-export default function BasicTable() {
+  //   function getClaims() {
+  //     axios.get("<api get>").then(function (response) {
+  //       console.log(response.data);
+  //       setClaims(response.data);
+  //     });
+  //   }
+
+  // const deleteClaim = (id) => {
+  //     axios
+  //       .delete(`http://127.0.0.1:5000/userdelete/${id}`)
+  //       .then(function (response) {
+  //         console.log(response.data);
+  //         getUsers();
+  //       });
+  //     alert("Successfully Deleted");
+  //   };
+
   return (
     <div className="">
       <Typography
@@ -118,6 +132,16 @@ export default function BasicTable() {
           </Table>
         </TableContainer>
       </Typography>
+      <Button
+        component={Link}
+        to="/createclaim"
+        variant="contained"
+        color="success"
+        sx={{ ml: 25, fontWeight: "thick" }}
+        startIcon={<AddIcon sx={{ color: "#ffffff !important" }} />}
+      >
+        Add new claim
+      </Button>
     </div>
   );
 }
