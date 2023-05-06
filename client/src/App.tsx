@@ -12,10 +12,10 @@ const App = () => {
   return (
     <div className="vh-100 gradient-custom">
       <div className="container">
-        <h1 className="page-header text-center">
+        {/* <h1 className="page-header text-center">
           React-JS and Python Flask CRUD Create, Read, Update and Delete
           MySql-Database
-        </h1>
+        </h1> */}
 
         <BrowserRouter>
           <Routes>
