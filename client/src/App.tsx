@@ -12,15 +12,12 @@ import MainNavigation from "./components/MainNavigation";
 
 const App = () => {
   return (
-
     <div className="vh-100 gradient-custom">
-      
       <div className="container">
-        
         <BrowserRouter>
-        <MainNavigation/>
+          <MainNavigation />
           <Routes>
-            <Route path="/" element={<Home/>}/>
+            <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/createclaim" element={<CreateClaim />} />
             <Route path="/editclaim" element={<UpdateClaim />} />
