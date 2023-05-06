@@ -1,5 +1,6 @@
 const dashboardController = require("./controllers/dashboardController");
-const transactionController = require("./controllers/claimController");
+const transactionController = require("./controllers/transactionController");
+const currencyController = require("./controllers/currencyController");
 
 module.exports = function(app) {
     app.get("/api/dashboard", isLoggedIn, dashboardController.index);
