@@ -6,8 +6,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql://umer2:232423@localhost:5432/mydb'
-    SECRET_KEY = b'_5#y2L"F4Q8z\n\xec]/'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:232423@localhost:3306/claimsystem'
+    # SECRET_KEY = b'_5#y2L"F4Q8z\n\xec]/'
     # SESSION_PERMANENT = False
     # SESSION_TYPE = "filesystem"
     JWT_SECRET_KEY = 'some_password'
