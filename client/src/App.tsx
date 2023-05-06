@@ -9,6 +9,8 @@ import CreateClaim from "./pages/CreateClaim";
 import UpdateClaim from "./pages/UpdateClaim";
 import Home from "./components/Home";
 import MainNavigation from "./components/MainNavigation";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 const App = () => {
   return (
@@ -24,6 +26,8 @@ const App = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/createclaim" element={<CreateClaim />} />
             <Route path="/editclaim" element={<UpdateClaim />} />
+            <Route path="/auth/login" element={<Login/>} />
+            <Route path="/auth/register" element={<Register/>}/>
           </Routes>
         </BrowserRouter>
       </div>
