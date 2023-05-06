@@ -2,7 +2,7 @@ from flask import request, jsonify, session
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import set_access_cookies 
-from flask_jwt_extended import unset_jwt_cookies
+from flask_jwt_extended import unset_jwt_cookies, current_user
 from app.authentication import authen
 from werkzeug.security import check_password_hash
 from app.models import Employee
@@ -10,8 +10,8 @@ from app.models import Employee
 @authen.route('/auth/login', methods=['POST'])
 def login():
     login_data = request.get_json()
-    employee_id = login_data.get('username')
-    password = login_data.get('password')  
+    employee_id = login_data.get('EmployeeID')
+    password = login_data.get('Password')  
 
     user = Employee.query.filter_by(EmployeeID=employee_id).first()    
 
@@ -28,6 +28,12 @@ def login():
     access_token = create_access_token(identity=user)
     set_access_cookies(response, access_token)
     return response, 200
+
+@authen.route('/test')
+@jwt_required()
+def test():
+    print(current_user.EmployeeID)
+    return '<h1>hello</h1>'
 
 @authen.route('/auth/logout')
 @jwt_required()
