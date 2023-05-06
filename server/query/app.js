@@ -18,7 +18,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 require("./routes")(app);
 
 sequelize
-  .sync({force:true})
+  .sync(
+    //{force:true}
+    )
   .then(() => {
     const PORT = 8080;
     app.listen(PORT);
