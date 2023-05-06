@@ -10,9 +10,10 @@ from app.models import Employee
 @authen.route('/auth/login', methods=['POST'])
 def login():
     login_data = request.get_json()
-    employee_id = login_data.get('EmployeeID')
-    password = login_data.get('Password')  
-
+    # employee_id = login_data.get('EmployeeID')
+    # password = login_data.get('Password')  
+    employee_id = login_data.get('username')
+    password = login_data.get('password')  
     user = Employee.query.filter_by(EmployeeID=employee_id).first()    
 
     if not user:
