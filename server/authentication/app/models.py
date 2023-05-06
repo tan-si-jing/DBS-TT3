@@ -21,8 +21,8 @@ class Department(db.Model):
 class EmployeeProjects(db.Model):
     tablename = 'EmployeeProjects' 
     projectID = db.Column(db.Integer, primary_key=True)
-    EmployeeID = db.Column(db.Integer, db.ForeignKey('Employee.employee_id'))
-    employee = db.relationship("Employee", backref=backref("employee", uselist=False)) 
+    EmployeeID = db.Column(db.Integer, db.ForeignKey('Employee.EmployeeID'))
+    employee = db.relationship("Employee", foreign_key='EmployeeID') 
     projectName= db.Column(db.String(100), unique=True, nullable=False)
     projectStatus = db.Column(db.String(225), nullable=False)
     budget= db.Column(db.float, nullable=False)
@@ -31,12 +31,12 @@ class EmployeeProjects(db.Model):
 class ProjectExpenseClaim(db.model):
     tablename = 'ProjectExpenseClaim' 
     claimID = db.Column(db.Integer, primary_key=True)
-    EmployeeID = db.Column(db.Integer, db.ForeignKey('EmployeeProjects.employee_id'))
-    employee = db.relationship("EmployeeProjects", backref=backref("employee", uselist=False)) 
+    EmployeeID = db.Column(db.Integer, db.ForeignKey('EmployeeProjects.EmployeeID'))
+    employee = db.relationship("EmployeeProjects", foreign_key="EmployeeID")
     ProjectID = db.Column(db.Integer, db.ForeignKey('EmployeeProjects.projectID'))
-    project = db.relationship("EmployeeProjects", backref=backref("project", uselist=False)) 
+    project = db.relationship("EmployeeProjects", foreign_key="projectID") 
     CurrencyID = db.Column(db.Integer, db.ForeignKey('EmployeeProjects.CurrencyID'))
-    currency = db.relationship("Currency", backref=backref("currency", uselist=False)) 
+    currency = db.relationship("Currency", foreign_key="CurrencyID")
     
 class Currency(db.Model):
     tablename = 'Currency'
