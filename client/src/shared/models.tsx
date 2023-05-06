@@ -17,17 +17,17 @@ export interface Projects {
 }
 
 export interface ProjectExpensesClaims {
-    claimId?: number | null;
-    projectId: number | null;
-    employeeId: number;
-    currencyId: string;
-    expenseDate: Date | null;
-    amount: number;
-    purpose: string;
+    ClaimID?: number | null;
+    ProjectID: number | null;
+    EmployeeID: number;
+    CurrencyID: string;
+    ExpenseDate: Date | null;
+    Amount: number;
+    Purpose: string;
     // Image
-    alternativeDeptCode: string;
-    status: string;
-    lastEditedClaimDate: string;
+    AlternativeDeptCode: string;
+    Status: string;
+    LastEditedClaimDate: string;
 }
 
 

@@ -27,13 +27,15 @@ def login():
     response = jsonify({"message": "login successful"})
     access_token = create_access_token(identity=user)
     set_access_cookies(response, access_token)
-    return response, 200
+    return response, 200  
+    # return jsonify(access_token=access_token), 200
 
 @authen.route('/test')
 @jwt_required()
 def test():
-    print(current_user.EmployeeID)
-    return '<h1>hello</h1>'
+    return jsonify({
+        "id" : current_user.EmployeeID
+    })
 
 @authen.route('/auth/logout')
 @jwt_required()

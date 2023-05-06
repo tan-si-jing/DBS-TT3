@@ -4,10 +4,26 @@ const Claims = db.claim;
 module.exports = {
   async create(req, res) {
     try {
-      const claim = await Claims.findAll({
-        attributes: ["CurrencyID"],
-      });
-      res.status(200).send(claim);
+        console.log(req)
+        Claims.create({
+            ClaimID: req.body.claimID,
+            ProjectID: req.body.projectID,
+            EmployeeID: req.body.employeeID,
+            CurrencyID: req.body.currencyID,
+            ExpenseDate: req.body.expenseDate,
+            Purpose: req.body.purpose,
+            Amount: req.body.amount,
+            Status: req.body.status,
+            ChargeToDefaultDept: req.body.chargeToDefaultDept,
+            AlternativeDeptCode: req.body.alternativeDeptCode,
+        }).then(function (claims) {
+            if (claims) {
+              res.status(200).send(claims);
+            } else {
+                response.status(400).send('Error in insert new record');
+            }
+        });
+
     } catch (err) {
       res.status(500).send({
         error: err.message || "An error has occurred trying to retrieve data.",
@@ -16,15 +32,15 @@ module.exports = {
   },
   async edit(req, res) {
     try {
-      const claimId = req.params.id
-      const updates = req.params
-      delete updates.id
-      const claim = await Claims.update(updates, {
+      await Claims.update(req.body, {
         where: {
-          claimID: claimId,
+          claimID: req.params.id,
         },
+      }).then(() => {
+        Claims.findByPk(req.params.id).then((claim) => {
+          res.status(200).send(claim);
+        });
       });
-      res.status(200).send(claim);
     } catch (err) {
       res.status(500).send({
         error: err.message || "An error has occurred trying to retrieve data.",

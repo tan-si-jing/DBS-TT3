@@ -5,9 +5,8 @@ module.exports = {
   async index(req, res) {
     try {
       const claims = await Claims.findAll({
-        attributes: ['ProjectID', 'ProjectStatus', 'CurrencyID', 'EmployeeID'],
         where: {
-          EmployeeID: req.body.params.id,
+          EmployeeID: req.body.employeeId,
         },
       });
       res.status(200).send(claims);

@@ -21,7 +21,9 @@ import {
   TableCell,
   TableBody,
   Table,
+  Alert,
 } from "@mui/material";
+import { ProjectExpensesClaims } from "../shared/models";
 
 function createData(
   claimId: number,
@@ -35,12 +37,12 @@ function createData(
   return { claimId, projectId, currencyId, amount, status, expenseDate, purpose };
 }
 
-const rows = [
-  createData(11147, 10001, "SGD", 123, "pending", new Date(), "Purpose 1"),
-  createData(11148, 10001, "SGD", 123, "pending", new Date(), "Purpose 2"),
-  createData(11149, 10001, "SGD", 256, "approved", new Date(), "Purpose 3"),
-  createData(11150, 10001, "SGD", 26, "rejected", new Date(), "Purpose 4"),
-];
+// const employeeClaims = [
+//   createData(11147, 10001, "SGD", 123, "pending", new Date(), "Purpose 1"),
+//   createData(11148, 10001, "SGD", 123, "pending", new Date(), "Purpose 2"),
+//   createData(11149, 10001, "SGD", 256, "approved", new Date(), "Purpose 3"),
+//   createData(11150, 10001, "SGD", 26, "rejected", new Date(), "Purpose 4"),
+// ];
 
 function getFontColor(value: string) {
   if (value == "rejected" || value == "Rejected") {
@@ -52,55 +54,25 @@ function getFontColor(value: string) {
   }
 }
 
-function AlertDialog() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Delete the claim?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Delete</Button>
-          <Button onClick={handleClose} autoFocus>
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-}
-
 export default function Dashboard() {
   // for delete dialogue
   const [open, setOpen] = React.useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [deletedec, setDeleteDec] = React.useState(false);
+
+  const [employeeClaims, setEmployeeClaims] = useState<ProjectExpensesClaims[]>([]);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleDeletionClose = () => {
+    setOpen(false);
+    setDeleteDec(true);
+    setTimeout(() => {
+      setDeleteDec(false);
+    }, 2000);
   };
 
   const navigate = useNavigate();
@@ -112,11 +84,25 @@ export default function Dashboard() {
       console.log('====== data', response.data);
        setCurrencies(response.data)
      })
-   }
+  }
 
    if(currencies.length === 0) {
     getCurrencies();
    }
+
+   const data = {
+    employeeId: 10015
+   }
+
+
+   const getDashboard = async () => {
+    return await axios.post("http://localhost:8080/api/dashboard", data).then((response) => {
+      console.log('====== data', response.data);
+      setEmployeeClaims(response.data);
+     })
+  }
+
+  getDashboard();
 
   //   const [claims, setClaims] = useState([]);
   //   useEffect(() => {
@@ -156,6 +142,11 @@ export default function Dashboard() {
         List of Claims
       </Typography>
       {/* component={Paper} */}
+      {deletedec && (
+        <Alert sx={{ ml: 25, mr: 23 }} severity="error">
+          You have successfully deleted your claim.
+        </Alert>
+      )}
       <Typography sx={{ alignItems: "center", ml: 25, mr: 23 }}>
         <TableContainer>
           <Table
@@ -175,31 +166,31 @@ export default function Dashboard() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {employeeClaims.map((row) => (
                 <TableRow
-                  key={row.claimId}
+                  key={row.ClaimID}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.claimId}
+                    {row.ClaimID}
                   </TableCell>
                   <TableCell align="center" sx={{ p: { xs: 2 } }}>
-                    {row.projectId}
+                    {row.ProjectID}
                   </TableCell>
                   <TableCell align="center" sx={{ p: { xs: 2 } }}>
-                    {row.currencyId}
+                    {row.CurrencyID}
                   </TableCell>
                   <TableCell align="center" sx={{ p: { xs: 2 } }}>
-                    {row.amount}
+                    {row.Amount}
                   </TableCell>
                   <TableCell
                     align="center"
                     sx={{
                       p: { xs: 2 },
-                      color: getFontColor(row.status),
+                      color: getFontColor(row.Status),
                     }}
                   >
-                    {row.status}
+                    {row.Status}
                   </TableCell>
                   <TableCell align="center">
                     {/* <Link to="/editclaim">Edit</Link> */}
@@ -217,10 +208,35 @@ export default function Dashboard() {
                         variant="contained"
                         color="error"
                         endIcon={<DeleteIcon />}
-                        // onClick={() => AlertDialog()}
+                        onClick={handleClickOpen}
                       >
                         Delete
                       </Button>
+                      <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogTitle id="alert-dialog-title">
+                          {"Delete your claim?"}
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            Please note that deletion of your claim is
+                            irreversible. Click 'Confirm' to delete your claim,
+                            otherwise, click 'Cancel'.
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button color="error" onClick={handleDeletionClose}>
+                            Confirm
+                          </Button>
+                          <Button onClick={handleClose} autoFocus>
+                            Cancel
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
                     </Stack>
                   </TableCell>
                 </TableRow>
@@ -230,9 +246,9 @@ export default function Dashboard() {
         </TableContainer>
       </Typography>
       <Button
-                        onClick={() =>
-                          navigate("/createclaim", { state: { currencies: currencies } })
-                        }
+        onClick={() =>
+          navigate("/createclaim", { state: { currencies: currencies } })
+        }
         variant="contained"
         color="success"
         sx={{ ml: 25, fontWeight: "thick" }}
