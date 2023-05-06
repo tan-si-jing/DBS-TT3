@@ -23,7 +23,7 @@ CREATE TABLE Employee (
     EmployeeID int NOT NULL,
     SupervisorID int,
     DepartmentCode varchar(20) NOT NULL,
-    EmployeePassword varchar(255) NOT NULL,
+    Password varchar(255) NOT NULL,
     FirstName varchar(50) NOT NULL,
     LastName varchar(50) NOT NULL,
     BankAccountNumber varchar(50) NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE ProjectExpenseClaims (
     Purpose varchar(255) NOT NULL,
     ChargeToDefaultDept boolean,
     AlternativeDeptCode varchar(255),
-    ClaimStatus varchar(20),
+    Status varchar(20),
     LastEditedClaimDate DATETIME,
 
     PRIMARY KEY (ClaimID),
@@ -78,7 +78,7 @@ CREATE TABLE ProjectExpenseClaims (
     FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID),
     FOREIGN KEY (CurrencyID) REFERENCES Currency(CurrencyID),
 
-    CONSTRAINT CheckClaimStatus CHECK (ClaimStatus IN ('pending', 'approved', 'rejected')),
+    CONSTRAINT CheckClaimStatus CHECK (Status IN ('pending', 'approved', 'rejected')),
     CONSTRAINT CheckEditedClaimDate CHECK (ExpenseDate <= LastEditedClaimDate)
 );
 
@@ -98,8 +98,11 @@ VALUES (10001, 10003, "102", "DBSBestBank2022", "Tom", "Lim", "266177888");
 INSERT INTO Projects (ProjectID, ProjectName, ProjectStatus, ProjectBudget, ProjectLeadID)
 VALUES (10005, "Project Name", "in progress", 0.99, 10003);
 
-INSERT INTO Currnecy (CurrnecyID, ExchangeRate)
+INSERT INTO EmployeeProjects (ProjectID, EmployeeID)
+VALUES (10005, 10001);
+
+INSERT INTO Currency (CurrencyID, ExchangeRate)
 VALUES ("MYR", 3.30);
 
-INSERT INTO EmployeeProjects (ClaimID, ProjectID, EmployeeID, CurrencyID, ExpenseDate, Amount, Purpose, ChargeToDefaultDept, AlternativeDeptCode, Status, LastEditedClaimDate)
-VALUES (11147, 10005, 10001, "MYR", '20120618 10:34:09 AM', 20000.0, "Venue Procurement", true, "103", "pending", null)
+INSERT INTO ProjectExpenseClaims (ClaimID, ProjectID, EmployeeID, CurrencyID, ExpenseDate, Amount, Purpose, ChargeToDefaultDept, AlternativeDeptCode, Status, LastEditedClaimDate)
+VALUES (11147, 10005, 10001, "MYR", '2023-11-11', 20000.0, "Venue Procurement", true, "103", "pending", null)
