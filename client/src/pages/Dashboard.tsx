@@ -32,6 +32,16 @@ const rows = [
   createData(11150, 10001, "SGD", "rejected"),
 ];
 
+function getFontColor(value: string) {
+  if (value == "rejected" || value == "Rejected") {
+    return "red";
+  } else if (value == "accepted" || value == "Accepted") {
+    return "#194D33";
+  } else if (value == "pending" || value == "Pending") {
+    return "grey";
+  }
+}
+
 export default function Dashboard() {
   //   const [claims, setClaims] = useState([]);
   //   useEffect(() => {
@@ -103,7 +113,13 @@ export default function Dashboard() {
                   <TableCell align="center" sx={{ p: { xs: 2 } }}>
                     {row.currencyId}
                   </TableCell>
-                  <TableCell align="center" sx={{ p: { xs: 2 } }}>
+                  <TableCell
+                    align="center"
+                    sx={{
+                      p: { xs: 2 },
+                      color: getFontColor(row.status),
+                    }}
+                  >
                     {row.status}
                   </TableCell>
                   <TableCell align="center">
