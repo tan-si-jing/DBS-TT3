@@ -4,9 +4,9 @@ const Claims = db.claim;
 module.exports = {
   async create(req, res) {
     try {
-      const claim = await Claims.findAll({
-        attributes: ["CurrencyID"],
-      });
+      // const claim = await Claims.findAll({
+      //   attributes: ["CurrencyID"],
+      // });
       res.status(200).send(claim);
     } catch (err) {
       res.status(500).send({
@@ -16,15 +16,15 @@ module.exports = {
   },
   async edit(req, res) {
     try {
-      const claimId = req.params.id
-      const updates = req.params
-      delete updates.id
-      const claim = await Claims.update(updates, {
+      await Claims.update(req.body, {
         where: {
-          claimID: claimId,
+          claimID: req.params.id,
         },
+      }).then(() => {
+        Claims.findByPk(req.params.id).then((claim) => {
+          res.status(200).send(claim);
+        });
       });
-      res.status(200).send(claim);
     } catch (err) {
       res.status(500).send({
         error: err.message || "An error has occurred trying to retrieve data.",
