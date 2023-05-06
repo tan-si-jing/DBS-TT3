@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ProjectExpensesClaims } from "../shared/models";
 import { Button, FormControlLabel, Grid, MenuItem, Radio, RadioGroup, Select, Stack, TextField, styled } from "@mui/material";
 import { DatePicker } from '@mui/x-date-pickers';
@@ -6,6 +6,8 @@ import dayjs from 'dayjs';
 import {
   useNavigate,
 } from 'react-router-dom';
+
+import axios from "axios";
 
 interface Props {
   claim?: ProjectExpensesClaims
@@ -20,11 +22,17 @@ const CreateClaim = ({claim}: Props) => {
   const [initialClaim, setInitialClaim] = useState(!claim ? {
     expenseDate: dayjs(new Date()),
     amount: 0,
-    currencyId: '',
+    currencyId: "SGD",
     purpose: ''
   } : claim);
+  
 
   const [hasFollowUp, setHasFollowUp] = useState(false);
+  const [currencies, setCurrencies] = useState(['SGD', 'CNY', 'HKD', 'IDR', 'JPY', 'KHR', 'KRW', 'TWD', 'VND']);
+
+  axios.get("http://localhost:8080/api/currencies").then((response) => {
+    console.log("===== DATA: ", response.data);
+  })
 
   const radioBtnOnChange = (event: any) => {
     switch(event.target.value) {
@@ -74,7 +82,6 @@ const CreateClaim = ({claim}: Props) => {
           <Select
               labelId="select-currency"
               id="select-currency"
-              defaultValue="SGD"
               value={initialClaim.currencyId}
               label="Currency"
               onChange={(event) => setInitialClaim({
@@ -83,11 +90,11 @@ const CreateClaim = ({claim}: Props) => {
               })}
               sx={{width: '100px'}}
             >
-              <MenuItem value={'SGD'}>SGD</MenuItem>
-              <MenuItem value={'AUD'}>AUD</MenuItem>
-              <MenuItem value={'RMB'}>RMB</MenuItem>
+              {currencies.map((item) => (
+                <MenuItem value={item}>{item}</MenuItem>
+              ))}
             </Select>
-          <TextFieldStyled id="txt_claimAmount" variant="outlined" type="number" value={claim ? initialClaim.amount : null} onChange={(event) => setInitialClaim({
+          <TextField sx={{width: '400px'}} id="txt_claimAmount" variant="outlined" type="number" value={claim ? initialClaim.amount : null} onChange={(event) => setInitialClaim({
             ...initialClaim,
             amount: Number(event.target.value)
           })}/>

@@ -5,7 +5,7 @@ module.exports = {
   async index(req, res) {
     try {
       const currencies = await Currency.findAll({
-        attributes: ['CurrencyID'],
+        attributes: ["CurrencyID"],
       });
       res.status(200).send(currencies);
     } catch (err) {
