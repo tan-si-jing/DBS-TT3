@@ -82,7 +82,7 @@ export default function Dashboard() {
     setDeleteDec(true);
     setTimeout(() => {
       setDeleteDec(false);
-    }, 2000);
+    }, 5000);
   };
 
   const navigate = useNavigate();
@@ -256,8 +256,8 @@ export default function Dashboard() {
                           <Button
                             color="error"
                             onClick={() => {
-                              // handleDeletionClose;
                               handleDelete(row.ClaimID);
+                              handleDeletionClose();
                             }}
                             // onClick={handleDeletionClose}
                           >
