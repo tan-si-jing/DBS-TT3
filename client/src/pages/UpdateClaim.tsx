@@ -17,19 +17,23 @@ import dayjs from "dayjs";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
-interface Props {
-  claim?: ProjectExpensesClaims;
-}
-
-const UpdateClaim = ({ claim }: Props) => {
+const UpdateClaim = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [newClaim, setNewClaim] = useState({
+  const claim = location.state.claim;
+
+  console.log("==== claim", claim);
+
+  const [initialClaim, setInitialClaim] = useState(!claim ? {
     expenseDate: dayjs(new Date()),
     amount: 0,
+    currencyId: "",
     purpose: "",
-  });
+  }: claim);
+
+  console.log("==== initial claim", initialClaim);
+  const [currencies, setCurrencies] = useState(['SGD', 'CNY', 'HKD', 'IDR', 'JPY', 'KHR', 'KRW', 'TWD', 'VND']);
 
   //   const onSave = async (e) => {
   //     e.preventDefault();
@@ -42,7 +46,7 @@ const UpdateClaim = ({ claim }: Props) => {
   //   }
 
   const onSubmit = () => {
-    console.log(newClaim);
+    console.log(initialClaim);
     navigate("/dashboard");
   };
 
@@ -59,27 +63,6 @@ const UpdateClaim = ({ claim }: Props) => {
       <br />
 
       <table>
-        {/* <tr>
-          <td>
-            <h3>Claim ID: </h3>
-          </td>
-          <SpacingTd></SpacingTd>
-          <td>
-            <TextFieldStyled
-              id="txt_claimAmount"
-              variant="outlined"
-              disabled={true}
-              value={claim ? newClaim.amount : null}
-              //   value="fkdlsfdkdlsfkfsd"
-              onChange={(event) =>
-                setNewClaim({
-                  ...newClaim,
-                  amount: Number(event.target.value),
-                })
-              }
-            />
-          </td>
-        </tr> */}
         <tr>
           <td>
             <h3>Claim Date: </h3>
@@ -88,10 +71,12 @@ const UpdateClaim = ({ claim }: Props) => {
           <td>
             <DatePicker
               sx={{ width: "500px" }}
-              value={claim ? newClaim.expenseDate : null}
+              format="DD-MM-YYYY"
+              value={dayjs(initialClaim.expenseDate, {format: 'DD-MM-YYYY'})}
+              maxDate={dayjs(new Date())}
               onChange={(value) =>
-                setNewClaim({
-                  ...newClaim,
+                setInitialClaim({
+                  ...initialClaim,
                   expenseDate: dayjs(value),
                 })
               }
@@ -104,18 +89,27 @@ const UpdateClaim = ({ claim }: Props) => {
           </td>
           <SpacingTd></SpacingTd>
           <td>
-            <TextFieldStyled
-              id="txt_claimAmount"
-              variant="outlined"
-              type="number"
-              value={claim ? newClaim.amount : null}
+            <Select
+              labelId="select-currency"
+              id="select-currency"
+              value={initialClaim.currencyId}
+              label="Currency"
               onChange={(event) =>
-                setNewClaim({
-                  ...newClaim,
-                  amount: Number(event.target.value),
+                setInitialClaim({
+                  ...initialClaim,
+                  currencyId: String(event.target.value),
                 })
               }
-            />
+              sx={{ width: "100px" }}
+            >
+              {currencies.map((item) => (
+                <MenuItem value={item}>{item}</MenuItem>
+              ))}
+            </Select>
+          <TextField sx={{width: '400px'}} id="txt_claimAmount" variant="outlined" type="number" value={claim ? initialClaim.amount : null} onChange={(event) => setInitialClaim({
+            ...initialClaim,
+            amount: Number(event.target.value)
+          })}/>
           </td>
         </tr>
         <tr>
@@ -128,10 +122,10 @@ const UpdateClaim = ({ claim }: Props) => {
               multiline
               rows={4}
               maxRows={4}
-              value={newClaim.purpose}
+              value={initialClaim.purpose}
               onChange={(event) =>
-                setNewClaim({
-                  ...newClaim,
+                setInitialClaim({
+                  ...initialClaim,
                   purpose: event.target.value,
                 })
               }

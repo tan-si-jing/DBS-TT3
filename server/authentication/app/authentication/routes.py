@@ -2,24 +2,24 @@ from flask import request, jsonify, session
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import set_access_cookies 
-from flask_jwt_extended import unset_jwt_cookies
+from flask_jwt_extended import unset_jwt_cookies, current_user
 from app.authentication import authen
 from werkzeug.security import check_password_hash
-from authentication.app import Employee
+from app.models import Employee
 
-@authen.route('/login', methods=['POST'])
+@authen.route('/auth/login', methods=['POST'])
 def login():
     login_data = request.get_json()
-    employee_id = login_data.get('employee_id')
-    password = login_data.get('password')    
+    employee_id = login_data.get('EmployeeID')
+    password = login_data.get('Password')  
 
-    user = Employee.query.filter_by(employee_id=employee_id).first()    
+    user = Employee.query.filter_by(EmployeeID=employee_id).first()    
 
     if not user:
         return {
             "message": "Employee ID does not exist!"
         }, 401
-    if not check_password_hash(user.password, password):    
+    if user.Password != password:    
         return {
             "message": "Password is incorrect!"
         }, 401
@@ -29,7 +29,13 @@ def login():
     set_access_cookies(response, access_token)
     return response, 200
 
-@authen.route('/logout')
+@authen.route('/test')
+@jwt_required()
+def test():
+    print(current_user.EmployeeID)
+    return '<h1>hello</h1>'
+
+@authen.route('/auth/logout')
 @jwt_required()
 def logout():
     response = jsonify({"message": "logout successful"})

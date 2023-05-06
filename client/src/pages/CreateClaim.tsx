@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { ProjectExpensesClaims } from "../shared/models";
-import { Button, FormControlLabel, Grid, MenuItem, Radio, RadioGroup, Select, Stack, TextField, styled } from "@mui/material";
-import { DatePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
 import {
-  useNavigate,
-} from 'react-router-dom';
+  Button,
+  FormControlLabel,
+  Grid,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  Stack,
+  TextField,
+  styled,
+} from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
 interface Props {
-  claim?: ProjectExpensesClaims
+  claim?: ProjectExpensesClaims;
 }
 
-
-const CreateClaim = ({claim}: Props) => {
-
+const CreateClaim = ({ claim }: Props) => {
   const navigate = useNavigate();
-  
 
   const [initialClaim, setInitialClaim] = useState(!claim ? {
     expenseDate: dayjs(new Date()),
@@ -35,27 +41,28 @@ const CreateClaim = ({claim}: Props) => {
   })
 
   const radioBtnOnChange = (event: any) => {
-    switch(event.target.value) {
-      case 'yes': 
+    switch (event.target.value) {
+      case "yes":
         return setHasFollowUp(true);
-      case 'no':
+      case "no":
         return setHasFollowUp(false);
       default:
         break;
     }
-  }
+  };
 
   const onSubmit = () => {
-    console.log('====== submittedClaim: ', initialClaim);
-  }
+    console.log("====== submittedClaim: ", initialClaim);
+  };
 
   return (
-    <Grid   
-    container
-    spacing={0}
-    direction="column"
-    alignItems="center"
-    style={{ minHeight: '100vh' }}>
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      style={{ minHeight: "100vh" }}
+    >
       <br />
       <h1>Create Claim</h1>
       <br />
@@ -63,14 +70,22 @@ const CreateClaim = ({claim}: Props) => {
       <table>
         <tr>
           <td>
-          <h3>Claim Date: </h3>
+            <h3>Claim Date: </h3>
           </td>
           <SpacingTd></SpacingTd>
           <td>
-          <DatePicker sx={{width: '500px'}} format="DD-MM-YYYY" maxDate={dayjs(new Date())} value={claim ? initialClaim.expenseDate : null} onChange={(value) => setInitialClaim({
-            ...initialClaim,
-            expenseDate: dayjs(value)
-          })}/>
+            <DatePicker
+              sx={{ width: "500px" }}
+              format="DD-MM-YYYY"
+              maxDate={dayjs(new Date())}
+              value={claim ? initialClaim.expenseDate : null}
+              onChange={(value) =>
+                setInitialClaim({
+                  ...initialClaim,
+                  expenseDate: dayjs(value),
+                })
+              }
+            />
           </td>
         </tr>
         <tr>
@@ -79,16 +94,18 @@ const CreateClaim = ({claim}: Props) => {
           </td>
           <SpacingTd></SpacingTd>
           <td>
-          <Select
+            <Select
               labelId="select-currency"
               id="select-currency"
               value={initialClaim.currencyId}
               label="Currency"
-              onChange={(event) => setInitialClaim({
-                ...initialClaim,
-                currencyId: String(event.target.value)
-              })}
-              sx={{width: '100px'}}
+              onChange={(event) =>
+                setInitialClaim({
+                  ...initialClaim,
+                  currencyId: String(event.target.value),
+                })
+              }
+              sx={{ width: "100px" }}
             >
               {currencies.map((item) => (
                 <MenuItem value={item}>{item}</MenuItem>
@@ -106,16 +123,18 @@ const CreateClaim = ({claim}: Props) => {
           </td>
           <SpacingTd></SpacingTd>
           <td>
-          <TextFieldStyled
-            multiline
-            rows={4}
-            maxRows={4}
-            value={initialClaim.purpose}
-            onChange={(event) => setInitialClaim({
-              ...initialClaim,
-              purpose: event.target.value
-            })}
-          />
+            <TextFieldStyled
+              multiline
+              rows={4}
+              maxRows={4}
+              value={initialClaim.purpose}
+              onChange={(event) =>
+                setInitialClaim({
+                  ...initialClaim,
+                  purpose: event.target.value,
+                })
+              }
+            />
           </td>
         </tr>
         <tr>
@@ -124,68 +143,77 @@ const CreateClaim = ({claim}: Props) => {
           </td>
           <SpacingTd></SpacingTd>
           <td>
-          <RadioGroup
-            aria-labelledby="isClaim-label"
-            name="isClaim-group"
-            onChange={radioBtnOnChange}
-          >
-            <Stack direction='row'>            
-            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-            <FormControlLabel value="no" control={<Radio />} label="No" />
-            </Stack>
-          </RadioGroup>
+            <RadioGroup
+              aria-labelledby="isClaim-label"
+              name="isClaim-group"
+              onChange={radioBtnOnChange}
+            >
+              <Stack direction="row">
+                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="no" control={<Radio />} label="No" />
+              </Stack>
+            </RadioGroup>
           </td>
         </tr>
-        {hasFollowUp &&         
+        {hasFollowUp && (
           <tr>
             <td>
-            <h3>Follow up of another claim:</h3>
+              <h3>Follow up of another claim:</h3>
             </td>
             <SpacingTd />
             <td>
-            <Select
-              labelId="select-claim"
-              id="select-claim"
-              value={10}
-              label="Claim"
-              onChange={(event) => setInitialClaim({
-                ...initialClaim
-              })}
-              sx={{width: '500px'}}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
+              <Select
+                labelId="select-claim"
+                id="select-claim"
+                value={10}
+                label="Claim"
+                onChange={(event) =>
+                  setInitialClaim({
+                    ...initialClaim,
+                  })
+                }
+                sx={{ width: "500px" }}
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
             </td>
           </tr>
-        }
+        )}
         <br />
         <CenterTr>
           <td>
-            <Button variant="contained" size="large" onClick={() => onSubmit()}>Create</Button>
+            <Button variant="contained" size="large" onClick={() => onSubmit()}>
+              Create
+            </Button>
           </td>
           <SpacingTd />
           <td>
-          <Button variant="contained" size="large" onClick={() => navigate(-1)}>Cancel</Button>
+            <Button
+              variant="contained"
+              size="large"
+              onClick={() => navigate(-1)}
+            >
+              Cancel
+            </Button>
           </td>
         </CenterTr>
       </table>
-
     </Grid>
-    );
+  );
 };
 
 export default CreateClaim;
 
-const SpacingTd = styled('td')`
+const SpacingTd = styled("td")`
   padding: 10px;
-`
+`;
 
-const CenterTr = styled('tr')`
+const CenterTr = styled("tr")`
   text-align: center;
-`
+`;
 
 const TextFieldStyled = styled(TextField)`
   width: 500px;
-`
+`;

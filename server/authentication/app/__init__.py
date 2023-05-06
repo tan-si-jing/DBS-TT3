@@ -5,7 +5,7 @@ from flask_jwt_extended import get_jwt
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import set_access_cookies
 from datetime import timezone, datetime, timedelta
-from models import Employee
+from app.models import Employee
 
 # from flask_session import Session
 import config
@@ -14,8 +14,8 @@ def create_app(configuration):
     app = Flask(__name__)
     app.config.from_object(configuration)
 
-    # from authen.models import db
-    # db.init_app(app)
+    from app.models import db
+    db.init_app(app)
 
     # Session(app)
 
@@ -23,7 +23,7 @@ def create_app(configuration):
 
     @jwt.user_identity_loader
     def user_identity_lookup(user):
-        return user.employee_id
+        return user.EmployeeID
 
     @jwt.user_lookup_loader
     def user_lookup_callback(_jwt_header, jwt_data):
